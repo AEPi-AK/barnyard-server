@@ -18,6 +18,7 @@ Player
     slot0 HeadPart
     slot1 BodyPart
     slot2 LegPart
+    joined Bool
     deriving Show
     deriving Eq
     deriving Read

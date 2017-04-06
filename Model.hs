@@ -14,8 +14,9 @@ share [mkPersist sqlSettings, mkMigrate "migrateAll"]
     $(persistFileWith lowerCaseSettings "config/models")
 
 instance ToJSON Player where
-    toJSON (Player slot0 slot1 slot2) = (object
+    toJSON (Player slot0 slot1 slot2 joined) = (object
       [ "slot0" .= show slot0
       , "slot1" .= show slot1
       , "slot2" .= show slot2
+      , "joined" .= show joined
       ])

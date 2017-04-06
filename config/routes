@@ -10,3 +10,4 @@
 
 /profile ProfileR GET
 /gamestate GetGameStateR GET
+/join/#PlayerId PlayerJoinR POST

@@ -17,16 +17,27 @@ instance ToJSON GameState where
       , "player2"               .= (toJSON $ player2 state)
       ])
 
-data GamePhase = GameWaiting | GameInProgress | GameOver
+data GamePhase = GameJoining | GameWaiting | GameInProgress | GameOver
     deriving(Show, Read, Eq)
 
+phaseStart :: GamePhase -> NominalDiffTime
+phaseStart GameWaiting = 55
+phaseStart GameOver = 40
+phaseStart GameJoining = 0
+phaseStart GameInProgress = 10
+
 phaseForTimeDiff :: NominalDiffTime -> GamePhase
-phaseForTimeDiff diff | diff > 45 = GameWaiting
-                      | diff > 30 = GameOver
-                      | diff >= 0 = GameInProgress
+phaseForTimeDiff diff | diff > (phaseStart GameWaiting) = GameWaiting
+                      | diff > (phaseStart GameOver) = GameOver
+                      | diff > (phaseStart GameInProgress) = GameInProgress
+                      | diff >= (phaseStart GameJoining) = GameJoining
+
+timeInPhase :: NominalDiffTime -> GamePhase -> NominalDiffTime
+timeInPhase time phase = time - (phaseStart phase)
                         
 phaseAndTimeForStartTime :: UTCTime -> IO (GamePhase, NominalDiffTime)
 phaseAndTimeForStartTime time = do
     currTime <- getCurrentTime
     let remSecs = diffUTCTime currTime time
-    return (phaseForTimeDiff remSecs, remSecs)
+    let phase = phaseForTimeDiff remSecs
+    return (phase, timeInPhase remSecs phase)
