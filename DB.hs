@@ -18,3 +18,10 @@ startNewRound = do
     let (roundId :: RoundId) = toSqlKey (fromIntegral (1 :: Int))
     runDB $ update roundId [RoundStartTime =. currTime] 
     return ()
+
+getPlayers :: Handler (Player, Player)
+getPlayers = do
+    players :: [Entity Player ]<- runDB $ selectList [] []
+    return $ case players of
+      ((Entity _pid1 player1):(Entity _pid2 player2):[]) -> (player1, player2)
+      _ -> error "Invalid DB state"

@@ -24,6 +24,7 @@ library
                      Handler.Home
                      Handler.Comment
                      Handler.Profile
+                     Handler.GetGameState
                      Data.AnimalParts
                      Data.GameState
                      DB
