@@ -24,6 +24,9 @@ library
                      Handler.Home
                      Handler.Comment
                      Handler.Profile
+                     Data.AnimalParts
+                     Data.GameState
+                     DB
 
     if flag(dev) || flag(library-only)
         cpp-options:   -DDEVELOPMENT
