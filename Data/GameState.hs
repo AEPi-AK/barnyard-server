@@ -31,6 +31,7 @@ phaseForTimeDiff diff | diff > (phaseStart GameWaiting) = GameWaiting
                       | diff > (phaseStart GameOver) = GameOver
                       | diff > (phaseStart GameInProgress) = GameInProgress
                       | diff >= (phaseStart GameJoining) = GameJoining
+phaseForTimeDiff _ = error "Invalid time diff!"
 
 timeInPhase :: NominalDiffTime -> GamePhase -> NominalDiffTime
 timeInPhase time phase = time - (phaseStart phase)

@@ -140,8 +140,12 @@ instance Yesod App where
     isAuthorized FaviconR _ = return Authorized
     isAuthorized RobotsR _ = return Authorized
     isAuthorized (StaticR _) _ = return Authorized
+
+    -- TODO: Add correct permissions here
     isAuthorized GetGameStateR _ = return Authorized
     isAuthorized (PlayerJoinR _) _ = return Authorized
+    isAuthorized (PlaceR _ _ _) _ = return Authorized
+    isAuthorized (RemoveR _ _) _ = return Authorized
 
     isAuthorized ProfileR _ = isAuthenticated
 

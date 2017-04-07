@@ -9,7 +9,6 @@ getGetGameStateR = do
     (player1, player2) <- getPlayers
     startTime <- getRoundStartTime
     (phase, secondsRemaining) <- liftIO $ phaseAndTimeForStartTime startTime
-    _ <- if phase == GameWaiting then resetPlayers else return ()
     let state = GameState { currentPhase = phase
                           , timeSincePhaseStart = secondsRemaining
                           , player1 = player1

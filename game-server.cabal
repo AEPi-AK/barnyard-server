@@ -26,6 +26,8 @@ library
                      Handler.Profile
                      Handler.GetGameState
                      Handler.PlayerJoin
+                     Handler.Place
+                     Handler.Remove
                      Data.AnimalParts
                      Data.GameState
                      DB
