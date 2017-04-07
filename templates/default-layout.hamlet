@@ -23,7 +23,6 @@
 <!-- Page Contents -->
 
 <div .container>
-    $if not $ Just HomeR == mcurrentRoute
         <ul .breadcrumb>
             $forall bc <- parents
                 <li>

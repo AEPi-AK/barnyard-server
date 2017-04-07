@@ -20,10 +20,6 @@ library
                      Model
                      Settings
                      Settings.StaticFiles
-                     Handler.Common
-                     Handler.Home
-                     Handler.Comment
-                     Handler.Profile
                      Handler.GetGameState
                      Handler.PlayerJoin
                      Handler.Place
