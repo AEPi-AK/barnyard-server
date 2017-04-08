@@ -11,14 +11,17 @@ data GameState = GameState { currentPhase :: GamePhase
                         } deriving (Show, Eq)
 
 instance ToJSON GameState where
-    toJSON state = (object 
-      [ "currentPhase"        .= (show $ currentPhase state)
-      , "phaseTime"           .= (show $ phaseTime (currentPhase state))
-      , "timeSincePhaseStart" .= (show $ timeSincePhaseStart state)
-      , "player1"               .= (toJSON $ player1 state)
-      , "player2"               .= (toJSON $ player2 state)
-      , "location"               .= (show $ location state)
-      ])
+    toJSON state = 
+        let pTime = show $ phaseTime (currentPhase state) in
+        let sinceStart = show $ timeSincePhaseStart state in
+        (object 
+            [ "currentPhase"        .= (show $ currentPhase state)
+            , "phaseTime"           .= (take (length pTime - 1) pTime)
+            , "timeSincePhaseStart" .= (take (length sinceStart - 1) sinceStart)
+            , "player1"               .= (toJSON $ player1 state)
+            , "player2"               .= (toJSON $ player2 state)
+            , "location"               .= (show $ location state)
+            ])
 
 data GamePhase = GameJoining | GameWaiting | GameInProgress | GameOver
     deriving(Show, Read, Eq)
