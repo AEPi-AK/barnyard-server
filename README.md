@@ -81,7 +81,7 @@ Currently, one of the following:
 
 ## Endpoints
 
-### /gamestate
+### GET /gamestate
 
 Returns a GameState. See above for the definition of GameState.
 
@@ -97,7 +97,7 @@ If the phase is set to GameOver, then there is a X second window until the phase
 returns to GameWaiting. X will be set after we know about how long we want to
 play lights/sounds/animations to indicate the winner.
 
-### /join/PlayerId
+### POST /join/PlayerId
 
 PlayerId is an int, 1 for player 1, 2 for player 2.
 
@@ -106,7 +106,7 @@ or "GameJoining" states.
 
 If the phase is "GameWaiting" then joining will change the state to "GameJoining"
 
-### /place/PlayerId/Slot/TileId
+### POST /place/PlayerId/Slot/TileId
 
 PlayerId is an int, 1 for player 1, 2 for player 2.
 
@@ -128,7 +128,7 @@ If a tile is placed in an invalid slot, it will be set to the corresponding erro
 string for that slot.
 
 
-### /remove/PlayerId/Slot
+### POST /remove/PlayerId/Slot
 
 PlayerId is an int, 1 for player 1, 2 for player 2.
 
