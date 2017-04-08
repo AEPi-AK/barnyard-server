@@ -26,7 +26,8 @@ The game phase will be one of the following strings:
 ```
 { "slot0" : Head,
   "slot1" : Body,
-  "slot2" : Leg
+  "slot2" : Leg,
+  "joined" : bool
 }
 ```
 ### phaseTime
@@ -37,6 +38,10 @@ The amount of time allocated for this GamePhase. For GameWaiting, we say 0
 ### timeSincePhaseStart
 
 The amount of time elapsed since this phase started.
+
+### joined
+
+Set to "True" if the player has joined, otherwise set to "False"
 
 ### Head
 
