@@ -119,3 +119,9 @@ Slot should be an integer 0, 1, or 2. 0 is the head slot, 1 is the body slot, 2 
 the leg slot.
 
 This will remove the tile from Player X at slot Y and update the game state appropriately (where X is the player number and Y is the slot number).
+
+## Running Locally
+
+You'll need to install [stack](https://docs.haskellstack.org/en/stable/README/)
+
+Then, follow the Yesod quickstart guide [here](http://www.yesodweb.com/page/quickstart) starting at step 3.
