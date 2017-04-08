@@ -13,5 +13,6 @@ getGetGameStateR = do
                           , timeSincePhaseStart = secondsRemaining
                           , player1 = player1
                           , player2 = player2
+                          , location = Desert
                           }
     return $ toJSON state

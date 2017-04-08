@@ -5,9 +5,11 @@
 ### GameState 
 ```
 { "currentPhase" : Phase,
+  "phaseTime" : int,
   "timeSincePhaseStart" : int,
   "player1" : player,
-  "player2" : player
+  "player2" : player,
+  "location" : Location
 }
 ```
 
@@ -27,6 +29,14 @@ The game phase will be one of the following strings:
   "slot2" : Leg
 }
 ```
+### phaseTime
+
+The amount of time allocated for this GamePhase. For GameWaiting, we say 0
+(since it is actually infinite-- it waits unitl a player joins)
+
+### timeSincePhaseStart
+
+The amount of time elapsed since this phase started.
 
 ### Head
 
@@ -61,6 +71,13 @@ Otherwise, it will be set to one of the following:
  * "Leg1"
  * "Leg2"
 
+
+### Location
+
+Currently, one of the following:
+
+  * Desert
+  * Tundra
 
 ## Endpoints
 
