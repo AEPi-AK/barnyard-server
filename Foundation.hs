@@ -1,3 +1,5 @@
+{-# Language OverloadedStrings #-}
+
 module Foundation where
 
 import Import.NoFoundation
@@ -14,6 +16,10 @@ import Yesod.Core.Types     (Logger)
 import qualified Yesod.Core.Unsafe as Unsafe
 import qualified Data.CaseInsensitive as CI
 import qualified Data.Text.Encoding as TE
+import qualified Data.Text as T
+import Data.GameState
+import Database.Persist.Sql
+import Data.Time.Clock
 
 -- | The foundation datatype for your application. This can be a good place to
 -- keep settings and values requiring initialization before your application
@@ -129,9 +135,12 @@ instance Yesod App where
 
     -- TODO: Add correct permissions here
     isAuthorized GetGameStateR _ = return Authorized
-    isAuthorized (PlayerJoinR _) _ = return Authorized
-    isAuthorized (PlaceR _ _ _) _ = return Authorized
-    isAuthorized (RemoveR _ _) _ = return Authorized
+    -- Can only join in GameWaiting or GameJoining
+    isAuthorized (PlayerJoinR _) _ = isPhase [GameWaiting, GameJoining]
+
+    -- Can only place or remove in GameInProgress
+    isAuthorized (PlaceR _ _ _) _ = isPhase [GameInProgress]
+    isAuthorized (RemoveR _ _) _ = isPhase [GameInProgress]
 
     -- This function creates static content files in the static folder
     -- and names them based on a hash of their content. This allows
@@ -165,6 +174,14 @@ instance Yesod App where
     -- error pages
     defaultMessageWidget title body = $(widgetFile "default-message-widget")
 
+isPhase :: [GamePhase] -> Handler AuthResult
+isPhase p = do
+    currRound <- runDB $ get404 $ toSqlKey (fromIntegral (1 :: Int))
+    let startTime = roundStartTime currRound
+    currTime <- liftIO $ getCurrentTime
+    let remSecs = diffUTCTime currTime startTime
+    let phase = phaseForTimeDiff remSecs
+    return $ if elem phase p then Authorized else Unauthorized (("Must be in phase: " :: Text) ++ (T.pack (show p)) ++ (" to access this endpoint" :: Text))
 -- Define breadcrumbs.
 instance YesodBreadcrumbs App where
   breadcrumb  _ = return ("home", Nothing)

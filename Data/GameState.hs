@@ -1,6 +1,6 @@
 module Data.GameState where
 
-import Import
+import Import.NoFoundation
 import Data.Time.Clock
 
 data GameState = GameState { currentPhase :: GamePhase
