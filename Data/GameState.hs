@@ -2,6 +2,7 @@ module Data.GameState where
 
 import Import.NoFoundation
 import Data.Time.Clock
+import Data.AnimalParts
 
 data GameState = GameState { currentPhase :: GamePhase
                            , timeSincePhaseStart :: NominalDiffTime
@@ -26,8 +27,6 @@ instance ToJSON GameState where
 data GamePhase = GameJoining | GameWaiting | GameInProgress | GameOver
     deriving(Show, Read, Eq)
 
-data Location = Desert | Tundra
-    deriving(Show, Read, Eq)
 
 phaseStart :: GamePhase -> NominalDiffTime
 phaseStart GameWaiting = 55

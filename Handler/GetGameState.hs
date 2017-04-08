@@ -9,10 +9,11 @@ getGetGameStateR = do
     (player1, player2) <- getPlayers
     startTime <- getRoundStartTime
     (phase, secondsRemaining) <- liftIO $ phaseAndTimeForStartTime startTime
+    location <- getRoundLocation
     let state = GameState { currentPhase = phase
                           , timeSincePhaseStart = secondsRemaining
                           , player1 = player1
                           , player2 = player2
-                          , location = Desert
+                          , location = location
                           }
     return $ toJSON state
