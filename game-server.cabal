@@ -24,6 +24,7 @@ library
                      Handler.PlayerJoin
                      Handler.Place
                      Handler.Remove
+                     Handler.Reset
                      Data.AnimalParts
                      Data.GameState
                      DB

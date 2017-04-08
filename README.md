@@ -137,6 +137,11 @@ the leg slot.
 
 This will remove the tile from Player X at slot Y and update the game state appropriately (where X is the player number and Y is the slot number).
 
+### POST /reset (FOR TESTING ONLY)
+
+To allow you to test faster, you can reset the game state to a new 
+game by sending a POST to /reset.
+
 ## Running Locally
 
 You'll need to install [stack](https://docs.haskellstack.org/en/stable/README/)

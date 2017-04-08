@@ -135,6 +135,7 @@ instance Yesod App where
 
     -- TODO: Add correct permissions here
     isAuthorized GetGameStateR _ = return Authorized
+    isAuthorized ResetR _ = return Authorized
     -- Can only join in GameWaiting or GameJoining
     isAuthorized (PlayerJoinR _) _ = isPhase [GameWaiting, GameJoining]
 

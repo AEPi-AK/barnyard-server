@@ -5,3 +5,4 @@
 /join/#PlayerId PlayerJoinR POST
 /place/#PlayerId/#Int/#String PlaceR POST
 /remove/#PlayerId/#Int RemoveR POST
+/reset ResetR POST
