@@ -25,5 +25,6 @@ Player
 
 Round
    startTime UTCTime
+   location Location
 
  -- By default this file is used in Model.hs (which is imported by Foundation.hs)

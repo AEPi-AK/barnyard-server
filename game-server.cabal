@@ -97,6 +97,7 @@ library
                  , time
                  , case-insensitive
                  , wai
+                 , random
 
 executable         game-server
     if flag(library-only)

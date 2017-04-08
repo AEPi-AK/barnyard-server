@@ -16,6 +16,13 @@ data LegPart = NoLeg | LegErr | Leg1 | Leg2
     deriving(Show, Read, Eq)
 derivePersistField "LegPart"
 
+data Location = Desert | Tundra
+    deriving(Show, Read, Eq)
+derivePersistField "Location"
+
+locations :: [Location]
+locations = [Desert, Tundra]
+
 data AnimalPart = Head HeadPart | Body BodyPart | Leg LegPart
 
 partForId :: String -> AnimalPart

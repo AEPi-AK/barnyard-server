@@ -8,11 +8,18 @@ module DB where
 import Import
 import Database.Persist.Sql
 import Data.AnimalParts
+import System.Random
+import qualified Data.List as L
 
 getRoundStartTime :: Handler UTCTime
 getRoundStartTime = do
     currRound <- runDB $ get404 $ toSqlKey (fromIntegral (1 :: Int))
     return $ roundStartTime currRound
+
+getRoundLocation :: Handler Location 
+getRoundLocation = do
+    currRound <- runDB $ get404 $ toSqlKey (fromIntegral (1 :: Int))
+    return $ roundLocation currRound
 
 addPlayer :: PlayerId -> Handler Value
 addPlayer p = do
@@ -29,9 +36,13 @@ resetPlayers =
 startNewRound :: Handler ()
 startNewRound = do
     currTime <- liftIO $ getCurrentTime
+    randTime <- liftIO $ (randomIO :: IO Int)
+    let idx = randTime `mod` (length locations)
     let (roundId :: RoundId) = toSqlKey (fromIntegral (1 :: Int))
     _ <- resetPlayers
-    runDB $ update roundId [RoundStartTime =. currTime] 
+    runDB $ update roundId [ RoundStartTime =. currTime
+                           , RoundLocation =. (locations L.!! idx)
+                           ] 
     return ()
 
 getPlayers :: Handler (Player, Player)
