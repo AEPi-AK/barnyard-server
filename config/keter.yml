@@ -1,6 +1,5 @@
 # After you've edited this file, remove the following line to allow
 # `yesod keter` to build your bundle.
-user-edited: false
 
 # A Keter app is composed of 1 or more stanzas. The main stanza will define our
 # web application. See the Keter documentation for more information on
@@ -25,7 +24,8 @@ stanzas:
       # You can specify one or more hostnames for your application to respond
       # to. The primary hostname will be used for generating your application
       # root.
-      - www.game-server.com
+      - barnyard-nuc.local 
+      - localhost
 
     # Enable to force Keter to redirect to https
     # Can be added to any stanza
@@ -44,9 +44,9 @@ stanzas:
   - type: redirect
 
     hosts:
-      - game-server.com
+      - barnyard.nuc-local 
     actions:
-      - host: www.game-server.com
+      - host: barnyard.nuc-local 
         # secure: false
         # port: 80
 

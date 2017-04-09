@@ -25,8 +25,8 @@ ip-from-header: "_env:IP_FROM_HEADER:false"
 
 database:
   # See config/test-settings.yml for an override during tests
-  database: "_env:SQLITE_DATABASE:game-server.sqlite3"
-  poolsize: "_env:SQLITE_POOLSIZE:10"
+  database: /opt/keter/database/game-server.sqlite3
+  poolsize: 100
 
 copyright: Insert copyright statement here
 #analytics: UA-YOURCODE
