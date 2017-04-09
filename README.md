@@ -9,7 +9,9 @@
   "timeSincePhaseStart" : int,
   "player1" : player,
   "player2" : player,
-  "location" : Location
+  "winner"  : Winner,
+  "location" : Location,
+  "settings" : Settings
 }
 ```
 
@@ -26,9 +28,14 @@ The game phase will be one of the following strings:
 ```
 { "slot0" : Head,
   "slot1" : Body,
-  "slot2" : Leg
+  "slot2" : Leg,
+  "joined" : bool
 }
 ```
+#### joined
+
+Set to "True" if the player has joined, otherwise set to "False"
+
 ### phaseTime
 
 The amount of time allocated for this GamePhase. For GameWaiting, we say 0
@@ -37,6 +44,7 @@ The amount of time allocated for this GamePhase. For GameWaiting, we say 0
 ### timeSincePhaseStart
 
 The amount of time elapsed since this phase started.
+
 
 ### Head
 
@@ -71,6 +79,15 @@ Otherwise, it will be set to one of the following:
  * "Leg1"
  * "Leg2"
 
+### Winner
+
+Only meaningful if the game is in the GameOver state.
+
+Can be one of the following:
+
+  * "Tie"
+  * "Player1"
+  * "Player2"
 
 ### Location
 
@@ -78,6 +95,19 @@ Currently, one of the following:
 
   * Desert
   * Tundra
+
+### Settings
+
+```
+{
+  volume : int,
+  brightness : int
+}
+```
+
+Volume is an int between 0 and 100, inclusive.
+
+Brightness is an int between 0 and 255, inclusive.
 
 ## Endpoints
 
@@ -136,6 +166,14 @@ Slot should be an integer 0, 1, or 2. 0 is the head slot, 1 is the body slot, 2 
 the leg slot.
 
 This will remove the tile from Player X at slot Y and update the game state appropriately (where X is the player number and Y is the slot number).
+
+### POST /settings/brightness/Int
+
+Sets the brightness to the Int given. Will reject if it is not between 0 and 255 inclusive.
+
+### POST /settings/volume/Int
+
+Sets the volime to the Int given. Will reject if it is not between 0 and 100 inclusive.
 
 ### POST /reset (FOR TESTING ONLY)
 

@@ -21,6 +21,21 @@ getRoundLocation = do
     currRound <- runDB $ get404 $ toSqlKey (fromIntegral (1 :: Int))
     return $ roundLocation currRound
 
+getVolume :: Handler Int
+getVolume = do
+    currRound <- runDB $ get404 $ toSqlKey (fromIntegral (1 :: Int))
+    return $ roundVolume currRound
+
+getBrightness :: Handler Int
+getBrightness = do
+    currRound <- runDB $ get404 $ toSqlKey (fromIntegral (1 :: Int))
+    return $ roundBrightness currRound
+
+getRound :: Handler Round
+getRound = do
+    currRound <- runDB $ get404 $ toSqlKey (fromIntegral (1 :: Int))
+    return $ currRound
+
 addPlayer :: PlayerId -> Handler Value
 addPlayer p = do
     runDB $ update p [PlayerJoined =. True]
@@ -44,6 +59,14 @@ startNewRound = do
                            , RoundLocation =. (locations L.!! idx)
                            ] 
     return ()
+
+updateVolume :: Int -> Handler ()
+updateVolume volume = do
+    runDB $ updateWhere [] [RoundVolume =. volume]
+
+updateBrightness :: Int -> Handler ()
+updateBrightness volume = do
+    runDB $ updateWhere [] [RoundBrightness =. volume]
 
 getPlayers :: Handler (Player, Player)
 getPlayers = do
