@@ -25,6 +25,8 @@ library
                      Handler.Place
                      Handler.Remove
                      Handler.Reset
+                     Handler.Brightness
+                     Handler.Volume
                      Data.AnimalParts
                      Data.GameState
                      DB

@@ -142,6 +142,8 @@ instance Yesod App where
     -- Can only place or remove in GameInProgress
     isAuthorized (PlaceR _ _ _) _ = isPhase [GameInProgress]
     isAuthorized (RemoveR _ _) _ = isPhase [GameInProgress]
+    isAuthorized (BrightnessR b) _ = if b >= 0 || b <= 100 then return Authorized else return $ Unauthorized ("Invalid Brightness" :: Text)
+    isAuthorized (VolumeR v) _ = if v >= 0 || v <= 100 then return Authorized else return $ Unauthorized ("Invalid Volume" :: Text)
 
     -- This function creates static content files in the static folder
     -- and names them based on a hash of their content. This allows

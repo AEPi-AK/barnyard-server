@@ -9,7 +9,12 @@ data GameState = GameState { currentPhase :: GamePhase
                            , player1 :: Player
                            , player2 :: Player
                            , location :: Location
+                           , settings :: GameSettings
+                           , winner :: Winner
                         } deriving (Show, Eq)
+
+data Winner = Tie | Player1 | Player2
+    deriving(Show, Read, Eq)
 
 instance ToJSON GameState where
     toJSON state = 
@@ -22,10 +27,22 @@ instance ToJSON GameState where
             , "player1"               .= (toJSON $ player1 state)
             , "player2"               .= (toJSON $ player2 state)
             , "location"               .= (show $ location state)
+            , "winner"                 .= (show $ winner state)
+            , "settings"               .= (toJSON $ settings state)
             ])
 
 data GamePhase = GameJoining | GameWaiting | GameInProgress | GameOver
     deriving(Show, Read, Eq)
+
+data GameSettings = GameSettings { brightness :: Int
+                                 , volume :: Int}
+    deriving(Show, Read, Eq)
+    
+instance ToJSON GameSettings where
+    toJSON settings = (object
+        [ "brightness"    .=  (show $ brightness settings)
+        , "volume"        .=  (show $ volume settings)
+        ])
 
 
 phaseStart :: GamePhase -> NominalDiffTime

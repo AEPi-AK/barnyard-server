@@ -6,3 +6,5 @@
 /place/#PlayerId/#Int/#String PlaceR POST
 /remove/#PlayerId/#Int RemoveR POST
 /reset ResetR POST
+/settings/brightness/#Int BrightnessR POST
+/settings/volume/#Int VolumeR POST
