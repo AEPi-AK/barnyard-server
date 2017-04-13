@@ -42,8 +42,8 @@ data GameSettings = GameSettings { brightness :: Int
     
 instance ToJSON GameSettings where
     toJSON settings = (object
-        [ "brightness"    .=  (show $ brightness settings)
-        , "volume"        .=  (show $ volume settings)
+        [ "brightness"    .=  (brightness settings)
+        , "volume"        .=  (volume settings)
         ])
 
 

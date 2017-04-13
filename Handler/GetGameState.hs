@@ -1,4 +1,3 @@
-{-# Language TemplateHaskell #-}
 module Handler.GetGameState where
 
 import Import
