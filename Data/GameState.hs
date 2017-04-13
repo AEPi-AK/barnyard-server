@@ -1,3 +1,5 @@
+{-# Language OverloadedStrings #-}
+{-# Language TemplateHaskell #-}
 module Data.GameState where
 
 import Import.NoFoundation
@@ -22,8 +24,8 @@ instance ToJSON GameState where
         let sinceStart = show $ timeSincePhaseStart state in
         (object 
             [ "currentPhase"        .= (show $ currentPhase state)
-            , "phaseTime"           .= (take (length pTime - 1) pTime)
-            , "timeSincePhaseStart" .= (take (length sinceStart - 1) sinceStart)
+            , "phaseTime"           .= (Import.NoFoundation.take (Import.NoFoundation.length pTime - 1) pTime)
+            , "timeSincePhaseStart" .= (Import.NoFoundation.take (Import.NoFoundation.length sinceStart - 1) sinceStart)
             , "player1"               .= (toJSON $ player1 state)
             , "player2"               .= (toJSON $ player2 state)
             , "location"               .= (show $ location state)

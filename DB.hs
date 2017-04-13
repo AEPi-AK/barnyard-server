@@ -53,7 +53,7 @@ startNewRound :: Handler ()
 startNewRound = do
     currTime <- liftIO $ getCurrentTime
     randTime <- liftIO $ (randomIO :: IO Int)
-    let idx = randTime `mod` (length locations)
+    let idx = randTime `mod` (Import.length locations)
     let (roundId :: RoundId) = toSqlKey (fromIntegral (1 :: Int))
     _ <- resetPlayers
     runDB $ update roundId [ RoundStartTime =. currTime

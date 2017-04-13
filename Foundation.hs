@@ -1,4 +1,9 @@
+{-# Language TemplateHaskell #-}
 {-# Language OverloadedStrings #-}
+{-# Language ViewPatterns #-}
+{-# Language MultiParamTypeClasses #-}
+{-# Language TypeFamilies #-}
+{-# Language FlexibleInstances #-}
 
 module Foundation where
 
@@ -156,13 +161,13 @@ instance Yesod App where
             minifym
             genFileName
             staticDir
-            (StaticR . flip StaticRoute [])
+            (StaticR Import.NoFoundation.. flip StaticRoute [])
             ext
             mime
             content
       where
         -- Generate a unique filename based on the content itself
-        genFileName lbs = "autogen-" ++ base64md5 lbs
+        genFileName lbs = "autogen-" Import.NoFoundation.++ base64md5 lbs
 
     -- What messages should be logged. The following includes all messages when
     -- in development, and warnings and errors in production.
@@ -171,11 +176,8 @@ instance Yesod App where
             || level == LevelWarn
             || level == LevelError
 
-    makeLogger = return . appLogger
+    makeLogger = return Import.NoFoundation.. appLogger
 
-    -- Provide proper Bootstrap styling for default displays, like
-    -- error pages
-    defaultMessageWidget title body = $(widgetFile "default-message-widget")
 
 isPhase :: [GamePhase] -> Handler AuthResult
 isPhase p = do
@@ -184,7 +186,7 @@ isPhase p = do
     currTime <- liftIO $ getCurrentTime
     let remSecs = diffUTCTime currTime startTime
     let phase = phaseForTimeDiff remSecs
-    return $ if elem phase p then Authorized else Unauthorized (("Must be in phase: " :: Text) ++ (T.pack (show p)) ++ (" to access this endpoint" :: Text))
+    return $ if Import.NoFoundation.elem phase p then Authorized else Unauthorized (("Must be in phase: " :: Text) Import.NoFoundation.++ (T.pack (show p)) Import.NoFoundation.++ (" to access this endpoint" :: Text))
 -- Define breadcrumbs.
 instance YesodBreadcrumbs App where
   breadcrumb  _ = return ("home", Nothing)
@@ -218,7 +220,7 @@ instance YesodAuth App where
                 }
 
     -- You can add other plugins like Google Email, email or OAuth here
-    authPlugins app = [authOpenId Claimed []] ++ extraAuthPlugins
+    authPlugins app = [authOpenId Claimed []] Import.NoFoundation.++ extraAuthPlugins
         -- Enable authDummy login if enabled.
         where extraAuthPlugins = [authDummy | appAuthDummyLogin $ appSettings app]
 
