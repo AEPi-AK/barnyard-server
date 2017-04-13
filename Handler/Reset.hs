@@ -5,5 +5,5 @@ import DB
 
 postResetR :: Handler Value
 postResetR = do
-    _ <- startNewRound 
+    _ <- resetGame 
     return $ object ["status" .= ("success" :: Text)]

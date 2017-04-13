@@ -8,6 +8,7 @@ module DB where
 import Import
 import Database.Persist.Sql
 import Data.AnimalParts
+import Data.Time
 import System.Random
 import qualified Data.List as L
 
@@ -57,6 +58,15 @@ startNewRound = do
     _ <- resetPlayers
     runDB $ update roundId [ RoundStartTime =. currTime
                            , RoundLocation =. (locations L.!! idx)
+                           ] 
+    return ()
+
+resetGame :: Handler ()
+resetGame = do
+    currTime <- liftIO $ getCurrentTime
+    _ <- resetPlayers
+    let (roundId :: RoundId) = toSqlKey (fromIntegral (1 :: Int))
+    runDB $ update roundId [ RoundStartTime =. (addUTCTime ((realToFrac $ -(1000 :: Integer))) currTime)
                            ] 
     return ()
 
