@@ -1,1 +1,0 @@
-{"phaseTime":"0s","player1":{"slot0":"NoHead","slot1":"NoBody","joined":"False","slot2":"NoLeg"},"location":"Desert","currentPhase":"GameWaiting","timeSincePhaseStart":"173742.496628s","player2":{"slot0":"NoHead","slot1":"NoBody","joined":"False","slot2":"NoLeg"}}
