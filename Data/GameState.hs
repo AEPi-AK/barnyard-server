@@ -58,7 +58,7 @@ phaseTime GameWaiting = 0
 phaseTime GameJoining = (phaseStart GameInProgress)
 phaseTime GameInProgress = (phaseStart GameOver) - (phaseStart GameInProgress)
 phaseTime GameOver = (phaseStart GameWaiting) - 
-                     (phaseStart GameOver) - (phaseStart GameInProgress)
+                     (phaseStart GameOver)
 
 phaseForTimeDiff :: NominalDiffTime -> GamePhase
 phaseForTimeDiff diff | diff > (phaseStart GameWaiting) = GameWaiting

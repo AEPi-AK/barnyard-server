@@ -22,11 +22,13 @@ getRoundLocation = do
     currRound <- runDB $ get404 $ toSqlKey (fromIntegral (1 :: Int))
     return $ roundLocation currRound
 
+{-@ getVolume :: Handler {v:Int | v <= 100 && v >= 0} @-}
 getVolume :: Handler Int
 getVolume = do
     currRound <- runDB $ get404 $ toSqlKey (fromIntegral (1 :: Int))
     return $ roundVolume currRound
 
+{-@ getBrightness :: Handler {v:Int | v >=0 && v <= 255} @-}
 getBrightness :: Handler Int
 getBrightness = do
     currRound <- runDB $ get404 $ toSqlKey (fromIntegral (1 :: Int))
