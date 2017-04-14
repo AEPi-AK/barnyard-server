@@ -37,10 +37,10 @@ getRound = do
     currRound <- runDB $ get404 $ toSqlKey (fromIntegral (1 :: Int))
     return $ currRound
 
-addPlayer :: PlayerId -> Handler Value
+addPlayer :: PlayerId -> Handler () 
 addPlayer p = do
     runDB $ update p [PlayerJoined =. True]
-    return $ object ["status" .= ("success" :: Text)]
+    return () 
 
 resetPlayers :: Handler ()
 resetPlayers =

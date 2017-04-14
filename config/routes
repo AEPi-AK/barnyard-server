@@ -8,3 +8,4 @@
 /reset ResetR POST
 /settings/brightness/#Int BrightnessR POST
 /settings/volume/#Int VolumeR POST
+/start StartGameR POST

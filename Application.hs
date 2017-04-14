@@ -39,6 +39,7 @@ import Handler.Remove
 import Handler.Reset
 import Handler.Brightness
 import Handler.Volume
+import Handler.StartGame
 import Network.Wai.Middleware.Cors
 
 -- This line actually creates our YesodDispatch instance. It is the second half

@@ -155,7 +155,7 @@ TileId is an id for a tile. Currently, acceptable Ids are:
 This will place a tile in the corresponding slot and update the game state appropriately.
 
 If a tile is placed in an invalid slot, it will be set to the corresponding error
-string for that slot.
+string for that slot. In addition, it will return "status: error" in the JSON.
 
 
 ### POST /remove/PlayerId/Slot
@@ -175,10 +175,14 @@ Sets the brightness to the Int given. Will reject if it is not between 0 and 255
 
 Sets the volime to the Int given. Will reject if it is not between 0 and 100 inclusive.
 
-### POST /reset (FOR TESTING ONLY)
+### POST /reset
+
+Puts the game back in a GameWaiting state and clears all the slots
+
+### POST /start (TESTING ONLY)
 
 To allow you to test faster, you can reset the game state to a new 
-game by sending a POST to /reset.
+game with both players joined by sending a POST to /start.
 
 ## Running Locally
 

@@ -10,3 +10,4 @@ postPlayerJoinR playerId = do
     (phase, _time) <- liftIO $ phaseAndTimeForStartTime startTime
     _ <- if phase == GameWaiting then startNewRound else return ()
     addPlayer playerId
+    return $ object ["status" .= ("success" :: Text)]

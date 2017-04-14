@@ -33,3 +33,9 @@ partForId s | s == "0e245" = Head Head1
             | s == "09d1f" = Leg  Leg1
             | s == "leg2"  = Leg  Leg2
 partForId _ = error "No such body part"
+
+partError :: AnimalPart -> Bool
+partError (Head HeadErr) = True
+partError (Body BodyErr) = True
+partError (Leg  LegErr)  = True
+partError _ = False
