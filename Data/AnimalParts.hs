@@ -26,10 +26,10 @@ locations = [Desert, Tundra]
 data AnimalPart = Head HeadPart | Body BodyPart | Leg LegPart
 
 partForId :: String -> AnimalPart
-partForId s | s == "head1" = Head Head1
+partForId s | s == "0e245" = Head Head1
             | s == "head2" = Head Head2
-            | s == "body1" = Body Body1
+            | s == "d9fdb" = Body Body1
             | s == "body2" = Body Body2
-            | s == "leg1"  = Leg  Leg1
+            | s == "09d1f" = Leg  Leg1
             | s == "leg2"  = Leg  Leg2
 partForId _ = error "No such body part"
