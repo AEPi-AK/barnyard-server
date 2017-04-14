@@ -85,15 +85,27 @@ getPlayers = do
       ((Entity _pid1 player1):(Entity _pid2 player2):[]) -> (player1, player2)
       xs -> error ("Invalid DB state: " ++ show xs)
 
-placeTile :: PlayerId -> Int -> AnimalPart -> Handler ()
+placeTile :: PlayerId -> Int -> AnimalPart -> Handler Text
 placeTile pid slot part = do
     case (slot, part) of
-        (0, Head h) -> runDB $ update pid [PlayerSlot0 =. h]
-        (1, Body b) -> runDB $ update pid [PlayerSlot1 =. b]
-        (2, Leg  l) -> runDB $ update pid [PlayerSlot2 =. l]
-        (0, _) -> runDB $ update pid [PlayerSlot0 =. HeadErr]
-        (1, _) -> runDB $ update pid [PlayerSlot1 =. BodyErr]
-        (2, _) -> runDB $ update pid [PlayerSlot2 =. LegErr]
+        (0, Head h) -> do
+            runDB $ update pid [PlayerSlot0 =. h]
+            return "success"
+        (1, Body b) -> do
+            runDB $ update pid [PlayerSlot1 =. b]
+            return "success"
+        (2, Leg  l) -> do
+            runDB $ update pid [PlayerSlot2 =. l]
+            return "success"
+        (0, _) -> do
+            runDB $ update pid [PlayerSlot0 =. HeadErr]
+            return "error"
+        (1, _) -> do
+            runDB $ update pid [PlayerSlot1 =. BodyErr]
+            return "error"
+        (2, _) -> do
+            runDB $ update pid [PlayerSlot2 =. LegErr]
+            return "error"
         _ -> error "Invalid slot"
 
 removeTile :: PlayerId -> Int -> Handler ()
