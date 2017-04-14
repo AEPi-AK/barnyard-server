@@ -101,7 +101,9 @@ Can be one of the following:
 Currently, one of the following:
 
   * Desert
-  * Tundra
+  * Arctic
+  * Grassland
+  * Rainforest
 
 ### Settings
 
