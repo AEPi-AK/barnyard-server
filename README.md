@@ -29,6 +29,9 @@ The game phase will be one of the following strings:
 { "slot0" : Head,
   "slot1" : Body,
   "slot2" : Leg,
+  "slot0Score" : int,
+  "slot1Score" : int,
+  "slot2Score" : int,
   "joined" : bool
 }
 ```

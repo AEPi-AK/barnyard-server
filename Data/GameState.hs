@@ -15,6 +15,21 @@ data GameState = GameState { currentPhase :: GamePhase
                            , winner :: Winner
                         } deriving (Show, Eq)
 
+data PlayerJSON = PlayerJSON { player :: Player
+                             , biome :: Location}
+instance ToJSON PlayerJSON where
+    toJSON playerJSON = 
+        let (Player slot0 slot1 slot2 joined) = player playerJSON in
+        (object
+        [ "slot0" .= show slot0
+        , "slot1" .= show slot1
+        , "slot2" .= show slot2
+        , "slot0Score" .= score (biome playerJSON) (Head slot0)
+        , "slot1Score" .= score (biome playerJSON) (Body slot1)
+        , "slot2Score" .= score (biome playerJSON) (Leg  slot2)
+        , "joined" .= show joined
+        ])
+
 data Winner = Tie | Player1 | Player2
     deriving(Show, Read, Eq)
 
@@ -26,8 +41,8 @@ instance ToJSON GameState where
             [ "currentPhase"        .= (show $ currentPhase state)
             , "phaseTime"           .= (Import.NoFoundation.take (Import.NoFoundation.length pTime - 1) pTime)
             , "timeSincePhaseStart" .= (Import.NoFoundation.take (Import.NoFoundation.length sinceStart - 1) sinceStart)
-            , "player1"               .= (toJSON $ player1 state)
-            , "player2"               .= (toJSON $ player2 state)
+            , "player1"               .= (toJSON $ PlayerJSON { player = player1 state, biome = location state})
+            , "player2"               .= (toJSON $ PlayerJSON { player = player2 state, biome = location state})
             , "location"               .= (show $ location state)
             , "winner"                 .= (show $ winner state)
             , "settings"               .= (toJSON $ settings state)
