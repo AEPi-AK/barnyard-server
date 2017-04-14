@@ -83,7 +83,7 @@ getPlayers = do
     players :: [Entity Player ]<- runDB $ selectList [] []
     return $ case players of
       ((Entity _pid1 player1):(Entity _pid2 player2):[]) -> (player1, player2)
-      _ -> error "Invalid DB state"
+      xs -> error ("Invalid DB state: " ++ show xs)
 
 placeTile :: PlayerId -> Int -> AnimalPart -> Handler ()
 placeTile pid slot part = do
