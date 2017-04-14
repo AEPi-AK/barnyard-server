@@ -19,10 +19,14 @@
 
 The game phase will be one of the following strings:
 
-  * GameWaiting
   * GameJoining
+  * GameInstructions
+  * GameBiomeSelection
   * GameInProgress
-  * GameOver
+  * GameTimeUp
+  * GameScoring
+  * GameWinner
+  * GameWaiting
 
 ### Player
 ```
