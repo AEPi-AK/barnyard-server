@@ -48,7 +48,9 @@ instance ToJSON GameState where
             , "settings"               .= (toJSON $ settings state)
             ])
 
-data GamePhase = GameJoining | GameWaiting | GameInProgress | GameOver
+data GamePhase = GameJoining | GameWaiting | GameInProgress | GameScoring
+               | GameInstructions | GameBiomeSelection
+               | GameTimeUp | GameWinner
     deriving(Show, Read, Eq)
 
 data GameSettings = GameSettings { brightness :: Int
@@ -61,24 +63,37 @@ instance ToJSON GameSettings where
         , "volume"        .=  (volume settings)
         ])
 
+startPlusTime :: GamePhase -> NominalDiffTime
+startPlusTime phase = (phaseStart phase) + (phaseTime phase)
 
 phaseStart :: GamePhase -> NominalDiffTime
-phaseStart GameWaiting = 55
-phaseStart GameOver = 40
 phaseStart GameJoining = 0
-phaseStart GameInProgress = 10
+phaseStart GameInstructions = startPlusTime GameJoining
+phaseStart GameBiomeSelection = startPlusTime GameInstructions
+phaseStart GameInProgress = startPlusTime GameBiomeSelection
+phaseStart GameTimeUp = startPlusTime GameInProgress
+phaseStart GameScoring = startPlusTime GameTimeUp
+phaseStart GameWinner = startPlusTime GameScoring
+phaseStart GameWaiting = startPlusTime GameWinner
 
 phaseTime :: GamePhase -> NominalDiffTime
+phaseTime GameJoining = 5
+phaseTime GameInstructions = 5
+phaseTime GameBiomeSelection = 5
+phaseTime GameInProgress = 30
+phaseTime GameTimeUp = 5
+phaseTime GameScoring = 5
+phaseTime GameWinner = 5
 phaseTime GameWaiting = 0
-phaseTime GameJoining = (phaseStart GameInProgress)
-phaseTime GameInProgress = (phaseStart GameOver) - (phaseStart GameInProgress)
-phaseTime GameOver = (phaseStart GameWaiting) - 
-                     (phaseStart GameOver)
 
 phaseForTimeDiff :: NominalDiffTime -> GamePhase
 phaseForTimeDiff diff | diff > (phaseStart GameWaiting) = GameWaiting
-                      | diff > (phaseStart GameOver) = GameOver
+                      | diff > (phaseStart GameWinner) = GameWinner
+                      | diff > (phaseStart GameScoring) = GameScoring
+                      | diff > (phaseStart GameTimeUp) = GameTimeUp
                       | diff > (phaseStart GameInProgress) = GameInProgress
+                      | diff > (phaseStart GameBiomeSelection) = GameBiomeSelection
+                      | diff > (phaseStart GameInstructions) = GameInstructions
                       | diff >= (phaseStart GameJoining) = GameJoining
 phaseForTimeDiff _ = error "Invalid time diff!"
 
