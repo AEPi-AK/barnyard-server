@@ -61,6 +61,19 @@ startNewRound = do
                            ] 
     return ()
 
+startNewRoundTesting :: NominalDiffTime -> Handler ()
+startNewRoundTesting offset = do
+    currTime <- liftIO $ getCurrentTime
+    let currTime' = addUTCTime (-offset) currTime 
+    randTime <- liftIO $ (randomIO :: IO Int)
+    let idx = randTime `mod` (Import.length locations)
+    let (roundId :: RoundId) = toSqlKey (fromIntegral (1 :: Int))
+    _ <- resetPlayers
+    runDB $ update roundId [ RoundStartTime =. currTime'
+                           , RoundLocation =. (locations L.!! idx)
+                           ] 
+    return ()
+
 resetGame :: Handler ()
 resetGame = do
     currTime <- liftIO $ getCurrentTime
