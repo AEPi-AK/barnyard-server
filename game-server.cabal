@@ -29,6 +29,7 @@ library
                      Handler.Volume
                      Handler.StartGame
                      Data.AnimalParts
+                     Data.AnimalPartsSpec
                      Data.GameState
                      DB
 

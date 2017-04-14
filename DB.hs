@@ -5,12 +5,22 @@
 
 module DB where
 
+{-@ LIQUID "--prune-unsorted" @-}
+
 import Import
 import Database.Persist.Sql
-import Data.AnimalParts
+import Data.AnimalPartsSpec
 import Data.Time
 import System.Random
 import qualified Data.List as L
+
+{-@ data Round = Round { roundStartTime :: UTCTime
+                       , roundLocation :: Location
+                       , roundVolume :: {v:Int | v >= 0 && v <= 100}
+                       , roundBrightness :: {b:Int | b >=0 && b <= 255}
+                       } 
+@-}
+
 
 getRoundStartTime :: Handler UTCTime
 getRoundStartTime = do
@@ -55,7 +65,7 @@ startNewRound :: Handler ()
 startNewRound = do
     currTime <- liftIO $ getCurrentTime
     randTime <- liftIO $ (randomIO :: IO Int)
-    let idx = randTime `mod` (Import.length locations)
+    let idx = randTime `mod` (Prelude.length locations)
     let (roundId :: RoundId) = toSqlKey (fromIntegral (1 :: Int))
     _ <- resetPlayers
     runDB $ update roundId [ RoundStartTime =. currTime
@@ -68,7 +78,7 @@ startNewRoundTesting offset = do
     currTime <- liftIO $ getCurrentTime
     let currTime' = addUTCTime (-offset) currTime 
     randTime <- liftIO $ (randomIO :: IO Int)
-    let idx = randTime `mod` (Import.length locations)
+    let idx = randTime `mod` (Prelude.length locations)
     let (roundId :: RoundId) = toSqlKey (fromIntegral (1 :: Int))
     _ <- resetPlayers
     runDB $ update roundId [ RoundStartTime =. currTime'
@@ -85,10 +95,12 @@ resetGame = do
                            ] 
     return ()
 
+{-@ updateVolume :: {v:Int | v >= 0 && v <= 100} -> Handler () @-}
 updateVolume :: Int -> Handler ()
 updateVolume volume = do
     runDB $ updateWhere [] [RoundVolume =. volume]
 
+{-@ updateBrightness :: {v:Int | v >= 0 && v <= 255} -> Handler () @-}
 updateBrightness :: Int -> Handler ()
 updateBrightness volume = do
     runDB $ updateWhere [] [RoundBrightness =. volume]
@@ -98,7 +110,7 @@ getPlayers = do
     players :: [Entity Player ]<- runDB $ selectList [] []
     return $ case players of
       ((Entity _pid1 player1):(Entity _pid2 player2):[]) -> (player1, player2)
-      xs -> error ("Invalid DB state: " ++ show xs)
+      xs -> error ("Invalid DB state: " Import.++ show xs)
 
 placeTile :: PlayerId -> Int -> AnimalPart -> Handler Text
 placeTile pid slot part = do
