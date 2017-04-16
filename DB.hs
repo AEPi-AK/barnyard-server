@@ -8,6 +8,7 @@ module DB where
 {-@ LIQUID "--prune-unsorted" @-}
 
 import Import
+import Prelude
 import Database.Persist.Sql
 import Data.AnimalPartsSpec
 import Data.Time
