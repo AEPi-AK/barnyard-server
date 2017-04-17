@@ -27,7 +27,7 @@ instance ToJSON PlayerJSON where
         , "slot0Score" .= score (biome playerJSON) (Head slot0)
         , "slot1Score" .= score (biome playerJSON) (Body slot1)
         , "slot2Score" .= score (biome playerJSON) (Leg  slot2)
-        , "joined" .= show joined
+        , "joined" .= joined
         ])
 
 data Winner = Tie | Player1 | Player2
@@ -77,9 +77,9 @@ phaseStart GameWinner = startPlusTime GameScoring
 phaseStart GameWaiting = startPlusTime GameWinner
 
 phaseTime :: GamePhase -> NominalDiffTime
-phaseTime GameJoining = 15
-phaseTime GameInstructions = 10
-phaseTime GameBiomeSelection = 10
+phaseTime GameJoining = 5
+phaseTime GameInstructions = 5
+phaseTime GameBiomeSelection = 5
 phaseTime GameInProgress = 30
 phaseTime GameTimeUp = 5
 phaseTime GameScoring = 5
