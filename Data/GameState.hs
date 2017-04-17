@@ -50,7 +50,7 @@ instance ToJSON GameState where
 
 data GamePhase = GameJoining | GameWaiting | GameInProgress | GameScoring
                | GameInstructions | GameBiomeSelection
-               | GameTimeUp | GameWinner
+               | GameTimeUp | GameWinner | GameBiomePicking
     deriving(Show, Read, Eq)
 
 data GameSettings = GameSettings { brightness :: Int
@@ -69,7 +69,8 @@ startPlusTime phase = (phaseStart phase) + (phaseTime phase)
 phaseStart :: GamePhase -> NominalDiffTime
 phaseStart GameJoining = 0
 phaseStart GameInstructions = startPlusTime GameJoining
-phaseStart GameBiomeSelection = startPlusTime GameInstructions
+phaseStart GameBiomePicking = startPlusTime GameInstructions
+phaseStart GameBiomeSelection = startPlusTime GameBiomePicking
 phaseStart GameInProgress = startPlusTime GameBiomeSelection
 phaseStart GameTimeUp = startPlusTime GameInProgress
 phaseStart GameScoring = startPlusTime GameTimeUp
@@ -79,6 +80,7 @@ phaseStart GameWaiting = startPlusTime GameWinner
 phaseTime :: GamePhase -> NominalDiffTime
 phaseTime GameJoining = 5
 phaseTime GameInstructions = 5
+phaseTime GameBiomePicking = 5
 phaseTime GameBiomeSelection = 5
 phaseTime GameInProgress = 30
 phaseTime GameTimeUp = 5
@@ -93,6 +95,7 @@ phaseForTimeDiff diff | diff > (phaseStart GameWaiting) = GameWaiting
                       | diff > (phaseStart GameTimeUp) = GameTimeUp
                       | diff > (phaseStart GameInProgress) = GameInProgress
                       | diff > (phaseStart GameBiomeSelection) = GameBiomeSelection
+                      | diff > (phaseStart GameBiomePicking) = GameBiomePicking
                       | diff > (phaseStart GameInstructions) = GameInstructions
                       | diff >= (phaseStart GameJoining) = GameJoining
 phaseForTimeDiff _ = error "Invalid time diff!"

@@ -21,6 +21,7 @@ The game phase will be one of the following strings:
 
   * GameJoining
   * GameInstructions
+  * GameBiomePicking
   * GameBiomeSelection
   * GameInProgress
   * GameTimeUp
@@ -61,8 +62,9 @@ If there is no head placed, the head will be set to "NoHead"
 
 Otherwise, it will be set to one of the following:
 
- * "Head1"
- * "Head2"
+```
+data HeadPart = Walrus | Vulture | Bison | Toucan
+```
 
 ### Body 
 
@@ -72,8 +74,9 @@ If there is no head placed, the head will be set to "NoBody"
 
 Otherwise, it will be set to one of the following:
 
- * "Body1"
- * "Body2"
+```
+data BodyPart = Penguin | Camel | Zebra | TreeFrog
+```
 
 ### Leg 
 
@@ -83,8 +86,10 @@ If there is no head placed, the head will be set to "NoLeg"
 
 Otherwise, it will be set to one of the following:
 
- * "Leg1"
- * "Leg2"
+```
+data LegPart = PolarBear | Lizard | Emu | Lemur
+```
+
 
 ### Winner
 
