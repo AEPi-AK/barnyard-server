@@ -145,7 +145,10 @@ instance Yesod App where
     isAuthorized (PlayerJoinR _) _ = isPhase [GameWaiting, GameJoining]
 
     -- Can only place or remove in GameInProgress
-    isAuthorized (PlaceR _ _ _) _ = isPhase [GameInProgress]
+    isAuthorized (PlaceR pid _ _) _ = do
+        ph <- isPhase [GameInProgress]
+        joined <- isJoined pid
+        return $ andAuth ph joined
     isAuthorized (RemoveR _ _) _ = return Authorized
     isAuthorized (BrightnessR b) _ = if b >= 0 || b <= 100 then return Authorized else return $ Unauthorized ("Invalid Brightness" :: Text)
     isAuthorized (VolumeR v) _ = if v >= 0 || v <= 100 then return Authorized else return $ Unauthorized ("Invalid Volume" :: Text)
@@ -233,6 +236,16 @@ isAuthenticated = do
     return $ case muid of
         Nothing -> Unauthorized "You must login to access this page"
         Just _ -> Authorized
+
+isJoined :: PlayerId -> Handler AuthResult
+isJoined pid = do
+    player <- runDB $ get404 $ pid
+    if (playerJoined player) then return Authorized else return (Unauthorized "must be joined")
+
+andAuth :: AuthResult -> AuthResult -> AuthResult
+andAuth a1 a2 =
+    if a1 == Authorized && a2 == Authorized then Authorized
+    else Unauthorized "Both a1 and a2 must be authorized"
 
 instance YesodAuthPersist App
 
