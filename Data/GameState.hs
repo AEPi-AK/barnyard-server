@@ -77,9 +77,9 @@ phaseStart GameWinner = startPlusTime GameScoring
 phaseStart GameWaiting = startPlusTime GameWinner
 
 phaseTime :: GamePhase -> NominalDiffTime
-phaseTime GameJoining = 5
-phaseTime GameInstructions = 5
-phaseTime GameBiomeSelection = 5
+phaseTime GameJoining = 15
+phaseTime GameInstructions = 10
+phaseTime GameBiomeSelection = 10
 phaseTime GameInProgress = 30
 phaseTime GameTimeUp = 5
 phaseTime GameScoring = 5
