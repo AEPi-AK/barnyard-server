@@ -26,18 +26,18 @@ locations = [Desert, Arctic, Grassland, Rainforest]
 data AnimalPart = Head HeadPart | Body BodyPart | Leg LegPart
 
 partForId :: String -> AnimalPart
-partForId s | s == "0e245" = Head Walrus
-            | s == "head2" = Head Vulture
-            | s == "head3" = Head Bison
-            | s == "head4" = Head Toucan 
-            | s == "d9fdb" = Body Penguin 
-            | s == "body2" = Body Camel 
-            | s == "body3" = Body Zebra
-            | s == "body4" = Body TreeFrog
-            | s == "09d1f" = Leg  PolarBear 
-            | s == "leg2"  = Leg  Lizard 
-            | s == "leg3"  = Leg  Emu
-            | s == "leg4"  = Leg  Lemur
+partForId s | s == "b9111" = Head Walrus
+            | s == "7a286" = Head Vulture
+            | s == "9d5df" = Head Bison
+            | s == "44552" = Head Toucan
+            | s == "f1ad0" = Body Penguin
+            | s == "1bdbf" = Body Camel
+            | s == "06dae" = Body Zebra
+            | s == "51745" = Body TreeFrog
+            | s == "9890b" = Leg  PolarBear
+            | s == "70ed8"  = Leg  Lizard
+            | s == "552b9"  = Leg  Emu
+            | s == "b6223"  = Leg  Lemur
 partForId _ = error "No such body part"
 
 partError :: AnimalPart -> Bool
