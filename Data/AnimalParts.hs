@@ -37,7 +37,7 @@ partForId s | s == "b9111" = Head Walrus
             | s == "9890b" = Leg  PolarBear
             | s == "70ed8"  = Leg  Lizard
             | s == "552b9"  = Leg  Emu
-            | s == "b6223"  = Leg  Lemur
+            | s == "b622e"  = Leg  Lemur
 partForId _ = error "No such body part"
 
 partError :: AnimalPart -> Bool
