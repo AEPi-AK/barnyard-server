@@ -4,6 +4,7 @@
 {-# Language MultiParamTypeClasses #-}
 {-# Language TypeFamilies #-}
 {-# Language FlexibleInstances #-}
+{-# Language ScopedTypeVariables #-}
 
 module Foundation where
 
@@ -24,6 +25,7 @@ import qualified Data.Text as T
 import Data.GameState
 import Database.Persist.Sql
 import Data.Time.Clock
+import Data.AnimalParts
 
 -- | The foundation datatype for your application. This can be a good place to
 -- keep settings and values requiring initialization before your application
@@ -142,7 +144,10 @@ instance Yesod App where
     isAuthorized ResetR _ = return Authorized
     isAuthorized StartGameR _ = return Authorized
     -- Can only join in GameWaiting or GameJoining
-    isAuthorized (PlayerJoinR _) _ = isPhase [GameWaiting, GameJoining]
+    isAuthorized (PlayerJoinR _) _ = do
+        inCorrectPhase <- isPhase [GameWaiting, GameJoining]
+        tilesRemoved <- allTilesRemoved
+        return $ andAuth inCorrectPhase tilesRemoved 
 
     -- Can only place or remove in GameInProgress
     isAuthorized (PlaceR pid _ _) _ = do
@@ -246,6 +251,21 @@ andAuth :: AuthResult -> AuthResult -> AuthResult
 andAuth a1 a2 =
     if a1 == Authorized && a2 == Authorized then Authorized
     else Unauthorized "Both a1 and a2 must be authorized"
+
+allTilesRemoved :: Handler AuthResult
+allTilesRemoved = do
+    players :: [Entity Player] <- runDB $ selectList [] []
+    let (player1, player2) = case players of
+            ((Entity _pid1 p1):(Entity _pid2 p2):[]) -> (p1, p2)
+            xs -> error ("Invalid DB state: " Import.NoFoundation.++ show xs)
+    if (playerSlot0 player1 == NoHead
+        && playerSlot1 player1 == NoBody
+        && playerSlot2 player1 == NoLeg
+        && playerSlot0 player2 == NoHead
+        && playerSlot1 player2 == NoBody
+        && playerSlot2 player2 == NoLeg) then return Authorized
+        else return $ Unauthorized ""
+    
 
 instance YesodAuthPersist App
 
