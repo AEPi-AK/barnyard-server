@@ -86,7 +86,7 @@ phaseTime :: GamePhase -> NominalDiffTime
 phaseTime GameJoining = 10
 phaseTime GameInstructions = 17
 phaseTime GameBiomePicking = 7
-phaseTime GameBiomeSelection = 8
+phaseTime GameBiomeSelection = 9
 phaseTime GameInProgress = 31
 phaseTime GameTimeUp = 5
 phaseTime GameScoring = 10
