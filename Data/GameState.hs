@@ -16,10 +16,14 @@ data GameState = GameState { currentPhase :: GamePhase
                         } deriving (Show, Eq)
 
 data PlayerJSON = PlayerJSON { player :: Player
-                             , biome :: Location}
+                             , biome :: Location
+                             , gPhase :: GamePhase }
 instance ToJSON PlayerJSON where
     toJSON playerJSON = 
         let (Player slot0 slot1 slot2 joined) = player playerJSON in
+        let isJoined = case gPhase playerJSON of
+                            GameWaiting -> False
+                            _ -> joined in
         (object
         [ "slot0" .= show slot0
         , "slot1" .= show slot1
@@ -27,7 +31,7 @@ instance ToJSON PlayerJSON where
         , "slot0Score" .= score (biome playerJSON) (Head slot0)
         , "slot1Score" .= score (biome playerJSON) (Body slot1)
         , "slot2Score" .= score (biome playerJSON) (Leg  slot2)
-        , "joined" .= joined
+        , "joined" .= isJoined
         ])
 
 data Winner = Tie | Player1 | Player2
@@ -37,12 +41,13 @@ instance ToJSON GameState where
     toJSON state = 
         let pTime = show $ phaseTime (currentPhase state) in
         let sinceStart = show $ timeSincePhaseStart state in
+        let gamePhase = currentPhase state in
         (object 
             [ "currentPhase"        .= (show $ currentPhase state)
             , "phaseTime"           .= (Import.NoFoundation.take (Import.NoFoundation.length pTime - 1) pTime)
             , "timeSincePhaseStart" .= (Import.NoFoundation.take (Import.NoFoundation.length sinceStart - 1) sinceStart)
-            , "player1"               .= (toJSON $ PlayerJSON { player = player1 state, biome = location state})
-            , "player2"               .= (toJSON $ PlayerJSON { player = player2 state, biome = location state})
+            , "player1"               .= (toJSON $ PlayerJSON { player = player1 state, biome = location state, gPhase = gamePhase})
+            , "player2"               .= (toJSON $ PlayerJSON { player = player2 state, biome = location state, gPhase = gamePhase})
             , "location"               .= (show $ location state)
             , "winner"                 .= (show $ winner state)
             , "settings"               .= (toJSON $ settings state)
