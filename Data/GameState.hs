@@ -20,7 +20,7 @@ data PlayerJSON = PlayerJSON { player :: Player
                              , gPhase :: GamePhase }
 instance ToJSON PlayerJSON where
     toJSON playerJSON = 
-        let (Player slot0 slot1 slot2 joined) = player playerJSON in
+        let (Player slot0 slot1 slot2 slot0Score slot1Score slot2Score joined) = player playerJSON in
         let isJoined = case gPhase playerJSON of
                             GameWaiting -> False
                             _ -> joined in
@@ -28,9 +28,9 @@ instance ToJSON PlayerJSON where
         [ "slot0" .= show slot0
         , "slot1" .= show slot1
         , "slot2" .= show slot2
-        , "slot0Score" .= score (biome playerJSON) (Head slot0)
-        , "slot1Score" .= score (biome playerJSON) (Body slot1)
-        , "slot2Score" .= score (biome playerJSON) (Leg  slot2)
+        , "slot0Score" .= slot0Score
+        , "slot1Score" .= slot1Score
+        , "slot2Score" .= slot2Score
         , "joined" .= isJoined
         ])
 
