@@ -4,7 +4,7 @@ module Data.AnimalParts where
 import Database.Persist.TH
 import Prelude
 
-data HeadPart = NoHead | HeadErr | Walrus | Vulture | Bison | Toucan
+data HeadPart = NoHead | HeadErr | Walrus | Vulture | Bison | Toucan | Avi
     deriving(Show, Read, Eq)
 derivePersistField "HeadPart"
 
@@ -74,7 +74,7 @@ score Desert (Leg PolarBear)     = 1
 score Desert (Leg Lizard)        = 3
 score Desert (Leg Emu)           = 2
 score Desert (Leg Lemur)         = 1
-score Grassland (Head Avi)        = 9
+score Grassland (Head Avi)       = 9
 score Grassland (Head Walrus)    = 1
 score Grassland (Head Vulture)   = 3
 score Grassland (Head Bison)     = 3
@@ -87,7 +87,7 @@ score Grassland (Leg PolarBear)  = 2
 score Grassland (Leg Lizard)     = 2
 score Grassland (Leg Emu)        = 3
 score Grassland (Leg Lemur)      = 2
-score Rainforest (Head Avi)       = 9
+score Rainforest (Head Avi)      = 9
 score Rainforest (Head Walrus)   = 2
 score Rainforest (Head Vulture)  = 1
 score Rainforest (Head Bison)    = 1
